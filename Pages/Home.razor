@@ -16,9 +16,9 @@
             <h2 id="calculator-heading">Let’s put two names together.</h2>
             <p id="names-help" class="muted">Use English letters, including romanized Myanmar names. Up to 80 characters each.</p>
             <form @onsubmit="HandleCalculate" @onsubmit:preventDefault novalidate>
-                <div class="field"><label for="first-name">Your name</label><input id="first-name" name="first-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Alice" @bind="firstName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
+                <div class="field"><label for="first-name">Your name</label><input id="first-name" name="first-name" type="text" required maxlength="80" autocomplete="off" placeholder="e.g. Alice" @bind="firstName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
                 <div class="between-fields" aria-hidden="true"><span></span><b>&amp;</b><span></span></div>
-                <div class="field"><label for="second-name">Their name</label><input id="second-name" name="second-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Bob" @bind="secondName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
+                <div class="field"><label for="second-name">Their name</label><input id="second-name" name="second-name" type="text" required maxlength="80" autocomplete="off" placeholder="e.g. Bob" @bind="secondName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
                 @if (!string.IsNullOrEmpty(error)) { <p id="name-error" class="form-error" role="alert">@error</p> }
                 <PrestigeShineButton Type="submit" Class="calculate-button">Calculate our match <span aria-hidden="true">↗</span></PrestigeShineButton>
                 <p class="fun-note">For smiles, not relationship advice.</p>

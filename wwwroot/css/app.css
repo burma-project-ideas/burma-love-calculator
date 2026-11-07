@@ -114,3 +114,4 @@ h1 em { font-family:Georgia,serif; font-weight:400; color:var(--primary); }
  .how-section { grid-template-columns:1fr; gap:25px; padding:38px 0 25px; } .how-heading h2 { font-size:29px; } .how-heading > p:last-child { max-width:none; } .site-footer { flex-direction:column; gap:18px; } .site-footer > div:last-child { text-align:left; } .trace-content { padding:18px; } .trace-round { gap:10px; } .trace-round > span:first-child { width:100%; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+.missing-page { padding-block:80px 120px; } .return-link { display:inline-flex; margin-top:24px; border-radius:999px; padding:14px 24px; background:var(--foreground); color:var(--background); font-size:13px; }
