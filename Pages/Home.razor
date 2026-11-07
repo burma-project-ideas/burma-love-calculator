@@ -29,7 +29,7 @@
             <div class="result-region" aria-live="polite" aria-atomic="true">
                 @if (result is { Ok: true })
                 {
-                    <section class="result-panel" aria-labelledby="result-heading"><p class="result-names">@firstName <span aria-hidden="true">♡</span> @secondName</p><p class="score">@result.Percentage<span>%</span></p><h3 id="result-heading">@GetCompatibilityMessage(result.Percentage)</h3><p class="muted">A playful score from your names. Your real connection is yours to write.</p><label for="compatibility-progress" class="sr-only">Compatibility score</label><progress id="compatibility-progress" class="score-progress" max="100" value="@result.Percentage">@result.Percentage%</progress></section>
+                    <section class="result-panel" aria-labelledby="result-heading"><p class="result-names">@firstName <span aria-hidden="true">♡</span> @secondName</p><p class="score">@result.Percentage<span>%</span></p><h3 id="result-heading">@GetCompatibilityMessage(result.Percentage)</h3><p class="muted">A playful score from your names. Your real connection is yours to write.</p><label for="compatibility-progress" class="sr-only">Compatibility score</label><progress id="compatibility-progress" aria-label="Compatibility score" class="score-progress" max="100" value="@result.Percentage">@result.Percentage%</progress></section>
                 }
                 else
                 {
