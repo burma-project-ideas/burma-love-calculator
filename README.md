@@ -1,3 +1,5 @@
+<p align="center"><img src="wwwroot/brand/love-mark.svg" width="96" height="96" alt="Burma Love Calculator rose heart logo" /></p>
+
 # Burma Love Calculator (အပျော်တမ်း နာမည်လိုက်ဖက်မှု)
 
 နာမည်နှစ်ခုကို ထည့်ပြီး စာလုံးအရေအတွက်အပေါ် အခြေခံတဲ့ အပျော်တမ်း Score ကို တွက်ကြည့်နိုင်တဲ့ Blazor WebAssembly Project ပါ။ [App ကို ဒီမှာ ဖွင့်နိုင်ပါတယ်](https://blazor-burma-love-calculator.vercel.app/)။
@@ -106,3 +108,7 @@ Static Output က `publish_output/wwwroot` ဖြစ်ပါတယ်။ Vercel
 - Fonts: Outfit နဲ့ Noto Sans Myanmar ကို SIL Open Font License နဲ့ Self-host လုပ်ထားပါတယ်။
 
 အသေးစိတ်ကို [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) မှာ ဖတ်နိုင်ပါတယ်။ ဒီ Project က အပျော်တမ်းလေ့လာရေး Project ဖြစ်ပြီး Relationship Prediction သို့မဟုတ် သိပ္ပံနည်းကျ Metric မဟုတ်ပါဘူး။
+
+## Brand assets
+
+The logo master is [wwwroot/brand/love-mark.svg](wwwroot/brand/love-mark.svg): a rose heart with a transparent diamond cutout. PNG exports, touch/app icons, a maskable icon, and the social-sharing card are in wwwroot/brand/. The browser favicon is wwwroot/favicon.ico; app metadata is in wwwroot/site.webmanifest. Raster sizes are exported from the same SVG design.
