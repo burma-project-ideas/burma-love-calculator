@@ -1,194 +1,158 @@
 @page "/"
 @inject LoveCalculatorService CalcService
-@using System.Timers
 
 <PageTitle>Love Calculator | Premium Red Edition</PageTitle>
 
-<div class="app-shell min-h-screen px-4 py-6 md:px-8 md:py-10">
-    <div class="mx-auto max-w-5xl">
-        <header class="mb-8 text-center md:mb-10">
-            <p class="kicker mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs tracking-[0.2em]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                BLAZOR UI PRO MAX RED EDITION
-            </p>
-            <div class="flex items-center justify-center gap-3">
-                <img src="love-icon.svg" alt="Love icon" class="brand-icon h-10 w-10 md:h-12 md:w-12" />
-                <h1 class="title-gradient text-5xl font-bold leading-tight md:text-7xl">Love Calculator</h1>
-                <img src="love-icon.svg" alt="Love icon" class="brand-icon h-10 w-10 md:h-12 md:w-12" />
-            </div>
-            <p class="header-subtitle mt-4 text-base md:text-lg">
-                dotnet 10 powered premium love resonance engine.
+<main id="main-content" class="app-shell min-h-screen px-4 py-8 md:px-8 md:py-14">
+    <div class="mx-auto max-w-4xl">
+        <header class="page-header">
+            <img src="love-icon.svg" alt="" aria-hidden="true" class="brand-mark" />
+            <p class="eyebrow">A small name game</p>
+            <h1 class="page-title text-5xl md:text-7xl">Love Calculator</h1>
+            <p class="page-intro">
+                Enter two English names for a playful compatibility score and a clear view of how it was calculated.
             </p>
         </header>
 
-        <section class="palette-rack mb-8 flex flex-wrap justify-center gap-2.5 rounded-2xl p-3.5">
-            <div class="palette-chip"><span class="palette-dot bg-primary"></span><span>Primary</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-secondary"></span><span>Secondary</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-accent"></span><span>Accent</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-destructive"></span><span>Destructive</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-muted"></span><span>Muted</span></div>
-        </section>
-
-        <section class="luxe-card mb-8 rounded-[2rem] p-5 shadow-2xl md:p-10">
-            <div class="mb-8 grid gap-5 md:grid-cols-2">
-                <div class="space-y-2">
-                    <label class="field-label text-muted-foreground font-bold flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        First Person
-                    </label>
-                    <input type="text" @bind="firstName" @bind:event="oninput" placeholder="Enter first name" class="input-luxe" />
-                </div>
-
-                <div class="space-y-2">
-                    <label class="field-label text-muted-foreground font-bold flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                        Second Person
-                    </label>
-                    <input type="text" @bind="secondName" @bind:event="oninput" placeholder="Enter second name" class="input-luxe" />
-                </div>
+        <section class="calculator-card" aria-labelledby="calculator-heading">
+            <div class="form-intro">
+                <p class="eyebrow">Name match</p>
+                <h2 id="calculator-heading" class="section-title">Check two names</h2>
+                <p id="names-help" class="supporting-text">Both fields are required. Only English letters A–Z are counted.</p>
             </div>
 
-            @if (!string.IsNullOrEmpty(error))
-            {
-                <div class="error-bar mb-6 flex items-start gap-3 rounded-2xl p-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                    <p class="text-sm font-semibold">@error</p>
-                </div>
-            }
+            <form @onsubmit="HandleCalculate" @onsubmit:preventDefault="true">
+                <fieldset class="name-grid">
+                    <legend class="sr-only">Names to compare</legend>
 
-            <div class="mb-8 text-center">
-                <button @onclick="HandleCalculate" disabled="@isCalculating" class="button-luxe">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-                    @(isCalculating ? "Calculating..." : "Calculate Love")
-                </button>
+                    <div class="field-group">
+                        <label for="first-name" class="field-label">First person</label>
+                        <input id="first-name"
+                               name="first-name"
+                               type="text"
+                               @bind="firstName"
+                               @bind:event="oninput"
+                               required
+                               maxlength="80"
+                               autocomplete="off"
+                               aria-describedby="names-help name-error"
+                               aria-invalid="@(string.IsNullOrEmpty(error) ? "false" : "true")"
+                               class="input-luxe" />
+                    </div>
+
+                    <div class="field-group">
+                        <label for="second-name" class="field-label">Second person</label>
+                        <input id="second-name"
+                               name="second-name"
+                               type="text"
+                               @bind="secondName"
+                               @bind:event="oninput"
+                               required
+                               maxlength="80"
+                               autocomplete="off"
+                               aria-describedby="names-help name-error"
+                               aria-invalid="@(string.IsNullOrEmpty(error) ? "false" : "true")"
+                               class="input-luxe" />
+                    </div>
+                </fieldset>
+
+                @if (!string.IsNullOrEmpty(error))
+                {
+                    <div id="name-error" class="error-bar" role="alert">
+                        <strong>Please check the names.</strong>
+                        <span>@error</span>
+                    </div>
+                }
+
+                <button type="submit" class="button-luxe">Calculate compatibility</button>
+            </form>
+
+            <div aria-live="polite" aria-atomic="true">
+                @if (result is { Ok: true })
+                {
+                    <section class="result-panel" aria-labelledby="result-heading">
+                        <p class="eyebrow">Your result</p>
+                        <p class="result-score">@result.Percentage%</p>
+                        <h2 id="result-heading" class="result-title">@GetCompatibilityMessage(result.Percentage)</h2>
+                        <p class="supporting-text">
+                            @firstName and @secondName have @result.Percentage% compatibility in this name game.
+                        </p>
+                        <label for="compatibility-progress" class="sr-only">Compatibility score</label>
+                        <progress id="compatibility-progress" class="score-progress" max="100" value="@result.Percentage">
+                            @result.Percentage%
+                        </progress>
+                    </section>
+                }
             </div>
-
-            @if (result != null || isCalculating)
-            {
-                <div class="space-y-6 text-center">
-                    @if (isCalculating)
-                    {
-                        <div class="flex flex-col items-center gap-4">
-                            <div class="spinner-ring h-16 w-16 animate-spin rounded-full border-4"></div>
-                            <p class="header-subtitle text-lg font-medium">Analyzing compatibility...</p>
-                        </div>
-                    }
-                    else if (result != null && result.Ok)
-                    {
-                        <div class="relative">
-                            <div class="glow-premium inline-block bg-gradient-to-r @GetResultToneClass(result.Percentage) bg-clip-text text-7xl font-extrabold text-transparent md:text-9xl">
-                                @result.Percentage%
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkle-hero absolute -right-6 -top-4 h-8 w-8"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                        </div>
-
-                        <div class="space-y-2">
-                            <h2 class="text-4xl font-semibold">@GetCompatibilityMessage(result.Percentage)</h2>
-                            <p class="header-subtitle text-lg">
-                                @firstName + @secondName = @result.Percentage% compatibility
-                            </p>
-                        </div>
-
-                        <div class="progress-wrap">
-                            <div class="h-full rounded-full bg-gradient-to-r @GetResultToneClass(result.Percentage) transition-all duration-1000 ease-out"
-                                 style="width: @(result.Percentage)%">
-                            </div>
-                        </div>
-                    }
-                </div>
-            }
         </section>
 
-        @if (result != null && result.Ok && result.Trace.Count > 0)
+        @if (result is { Ok: true } && result.Trace.Count > 0)
         {
-            <section class="luxe-card rounded-[1.7rem] p-5 md:p-8">
-                <div class="mb-4 flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkle-hero h-5 w-5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                    <h3 class="text-3xl font-semibold">Calculation Steps</h3>
+            <details class="steps-card">
+                <summary>
+                    <span>How the score was calculated</span>
+                    <span class="summary-meta">@result.Trace.Count rounds</span>
+                </summary>
+
+                <div class="steps-content">
+                    <p class="supporting-text">
+                        Each round pairs values from the outside in until two digits remain.
+                    </p>
+
+                    <ol class="trace-list">
+                        @foreach (var step in result.Trace)
+                        {
+                            <li class="trace-row">
+                                <h3>Round @step.Round</h3>
+                                <dl class="trace-values">
+                                    <div>
+                                        <dt>Input</dt>
+                                        <dd>
+                                            @foreach (var value in step.Input)
+                                            {
+                                                <span class="number-chip">@value</span>
+                                            }
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>Output</dt>
+                                        <dd>
+                                            @foreach (var value in step.Output)
+                                            {
+                                                <span class="number-chip">@value</span>
+                                            }
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </li>
+                        }
+                    </ol>
                 </div>
-
-                <p class="header-subtitle mb-5 text-sm leading-relaxed">
-                    Round trace for @firstName + @secondName showing how the final result is derived.
-                </p>
-
-                <div class="trace-list max-h-[444px] overflow-y-auto space-y-4 p-4">
-                    @foreach (var step in result.Trace)
-                    {
-                        <article class="trace-card">
-                            <div class="trace-heading flex items-center gap-2">
-                                <span class="step-pill">@step.Round</span>
-                                <p class="trace-round-title text-sm font-bold">Round @step.Round</p>
-                            </div>
-
-                            <div class="trace-line grid grid-cols-[3.8rem_1fr] gap-2 items-center">
-                                <span class="trace-label text-[10px] uppercase tracking-widest font-extrabold text-muted-foreground">Input</span>
-                                <div class="flex gap-1.5 flex-wrap">
-                                    @foreach (var val in step.Input)
-                                    {
-                                        <span class="number-chip">@val</span>
-                                    }
-                                </div>
-                            </div>
-
-                            <div class="trace-line grid grid-cols-[3.8rem_1fr] gap-2 items-center">
-                                <span class="trace-label text-[10px] uppercase tracking-widest font-extrabold text-muted-foreground">Output</span>
-                                <div class="flex gap-1.5 flex-wrap">
-                                    @foreach (var val in step.Output)
-                                    {
-                                        <span class="number-chip">@val</span>
-                                    }
-                                </div>
-                            </div>
-                        </article>
-                    }
-                </div>
-            </section>
+            </details>
         }
 
-        <footer class="pb-5 pt-10 text-center">
-            <p class="footer-note text-sm font-medium tracking-wide opacity-60">
-                For fun only. Not a scientific relationship metric. Powered by .NET 10.
-            </p>
+        <footer class="page-footer">
+            For fun only—not a scientific relationship metric. Powered by .NET 10.
         </footer>
     </div>
-</div>
+</main>
 
 @code {
     private string firstName = "";
     private string secondName = "";
     private string error = "";
-    private bool isCalculating = false;
     private CalculationResult? result;
-    private List<HeartParticle> particles = new();
-    private Random random = new();
 
-    private class HeartParticle
-    {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public double X { get; set; }
-        public double Y { get; set; }
-        public int TX { get; set; }
-        public int TY { get; set; }
-    }
-
-    private async Task HandleCalculate(MouseEventArgs e)
+    private void HandleCalculate()
     {
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(secondName))
         {
-            error = "Please enter both names to calculate.";
+            error = "Enter both names to calculate compatibility.";
             result = null;
             return;
         }
 
-        TriggerBurst(e.ClientX, e.ClientY);
-
         error = "";
-        result = null;
-        isCalculating = true;
-
-        // Simulate calculation delay for premium feel
-        await Task.Delay(820);
-
         result = CalcService.CalculateCompatibility(firstName, secondName);
 
         if (!result.Ok)
@@ -196,56 +160,15 @@
             error = result.Error;
             result = null;
         }
-
-        isCalculating = false;
     }
 
-    private void TriggerBurst(double x, double y)
+    private static string GetCompatibilityMessage(int percentage)
     {
-        for (int i = 0; i < 12; i++)
-        {
-            particles.Add(new HeartParticle
-            {
-                X = x,
-                Y = y,
-                TX = random.Next(-150, 150),
-                TY = random.Next(-200, -50)
-            });
-        }
-
-        StateHasChanged();
-
-        // Cleanup particles after animation
-        _ = Task.Delay(1200).ContinueWith(_ => {
-            particles.Clear();
-            InvokeAsync(StateHasChanged);
-        });
+        if (percentage >= 90) return "S-tier match";
+        if (percentage >= 80) return "High-voltage chemistry";
+        if (percentage >= 70) return "Strong alignment";
+        if (percentage >= 60) return "Solid connection";
+        if (percentage >= 50) return "Balanced potential";
+        return "Low resonance";
     }
-
-    private string GetCompatibilityMessage(int percentage)
-    {
-        if (percentage >= 90) return "S-tier Match";
-        if (percentage >= 80) return "High Voltage Chemistry";
-        if (percentage >= 70) return "Strong Alignment";
-        if (percentage >= 60) return "Solid Connection";
-        if (percentage >= 50) return "Balanced Potential";
-        return "Low Resonance";
-    }
-
-    private string GetResultToneClass(int percentage)
-    {
-        if (percentage >= 80) return "from-red-700 via-red-500 to-amber-300";
-        if (percentage >= 60) return "from-red-700 via-red-500 to-red-200";
-        if (percentage >= 40) return "from-red-600 via-red-400 to-orange-200";
-        return "from-red-500 via-rose-400 to-zinc-200";
-    }
-}
-
-@foreach (var p in particles)
-{
-    <div class="heart-spark" style="left: @(p.X)px; top: @(p.Y)px; --tx: @(p.TX)px; --ty: @(p.TY)px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-6 h-6">
-            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-        </svg>
-    </div>
 }
