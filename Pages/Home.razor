@@ -1,105 +1,48 @@
 @page "/"
 @inject LoveCalculatorService CalcService
-
-<PageTitle>Love Calculator | Premium Red Edition</PageTitle>
-
-<main id="main-content" class="app-shell min-h-screen px-4 py-8 md:px-8 md:py-14">
-    <div class="mx-auto max-w-4xl">
-        <header class="page-header">
-            <img src="love-icon.svg" alt="" aria-hidden="true" class="brand-mark" />
-            <p class="eyebrow">A small name game</p>
-            <h1 class="page-title text-5xl md:text-7xl">Love Calculator</h1>
-            <p class="page-intro">
-                Enter two English names for a playful compatibility score and a clear view of how it was calculated.
-            </p>
-        </header>
-
+<PageTitle>Burma Love Calculator · A little name game</PageTitle>
+<div class="page-width">
+    <section class="calculator-layout" id="calculator" aria-labelledby="page-heading">
+        <div class="intro">
+            <p class="eyebrow"><span class="tiny-heart" aria-hidden="true">♡</span> A little curiosity, a little chemistry</p>
+            <h1 id="page-heading" class="text-reveal">Two names.<br />One little <em>what if.</em></h1>
+            <p class="intro-copy">A name, a crush, a moment of curiosity.<br />Put your names together and see what the numbers say.</p>
+            <p class="myanmar intro-burmese" lang="my">နာမည်နှစ်ခုနဲ့ အပျော်တမ်း တွက်ကြည့်ရအောင်။</p>
+            <div class="love-illustration" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="illustration-heart">♡</span><span class="letter-tag tag-one">you</span><span class="letter-tag tag-two">&amp; them</span></div>
+            <p class="privacy-note">Your names stay in your browser.</p>
+        </div>
         <section class="calculator-card" aria-labelledby="calculator-heading">
-            <div class="form-intro">
-                <p class="eyebrow">Name match</p>
-                <h2 id="calculator-heading" class="section-title">Check two names</h2>
-                <p id="names-help" class="supporting-text">Both fields are required. Only English letters A–Z are counted.</p>
-            </div>
-
-            <form @onsubmit="HandleCalculate" @onsubmit:preventDefault="true">
-                <fieldset class="name-grid">
+            <div class="card-heading"><span class="card-kicker">THE NAME GAME</span><span aria-hidden="true">♡</span></div>
+            <h2 id="calculator-heading">Let’s put two names together.</h2>
+            <p id="names-help" class="muted">Use English letters, including romanized Myanmar names. Up to 80 characters each.</p>
+            <form @onsubmit="HandleCalculate" @onsubmit:preventDefault novalidate>
+                <fieldset class="name-fields">
                     <legend class="sr-only">Names to compare</legend>
-
-                    <div class="field-group">
-                        <label for="first-name" class="field-label">First person</label>
-                        <input id="first-name"
-                               name="first-name"
-                               type="text"
-                               @bind="firstName"
-                               @bind:event="oninput"
-                               required
-                               maxlength="80"
-                               autocomplete="off"
-                               aria-describedby="names-help name-error"
-                               aria-invalid="@(string.IsNullOrEmpty(error) ? "false" : "true")"
-                               class="input-luxe" />
-                    </div>
-
-                    <div class="field-group">
-                        <label for="second-name" class="field-label">Second person</label>
-                        <input id="second-name"
-                               name="second-name"
-                               type="text"
-                               @bind="secondName"
-                               @bind:event="oninput"
-                               required
-                               maxlength="80"
-                               autocomplete="off"
-                               aria-describedby="names-help name-error"
-                               aria-invalid="@(string.IsNullOrEmpty(error) ? "false" : "true")"
-                               class="input-luxe" />
-                    </div>
+                <div class="field"><label for="first-name">Your name</label><input id="first-name" name="first-name" type="text" required maxlength="80" autocomplete="off" placeholder="e.g. Alice" @bind="firstName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
+                <div class="between-fields" aria-hidden="true"><span></span><b>&amp;</b><span></span></div>
+                <div class="field"><label for="second-name">Their name</label><input id="second-name" name="second-name" type="text" required maxlength="80" autocomplete="off" placeholder="e.g. Bob" @bind="secondName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
                 </fieldset>
-
-                @if (!string.IsNullOrEmpty(error))
-                {
-                    <div id="name-error" class="error-bar" role="alert">
-                        <strong>Please check the names.</strong>
-                        <span>@error</span>
-                    </div>
-                }
-
-                <button type="submit" class="button-luxe">Calculate compatibility</button>
+                @if (!string.IsNullOrEmpty(error)) { <p id="name-error" class="form-error" role="alert">@error</p> }
+                <PrestigeShineButton Type="submit" Class="calculate-button">Calculate our match <span aria-hidden="true">↗</span></PrestigeShineButton>
+                <p class="fun-note">For smiles, not relationship advice.</p>
             </form>
-
-            <div aria-live="polite" aria-atomic="true">
+            <div class="result-region" aria-live="polite" aria-atomic="true">
                 @if (result is { Ok: true })
                 {
-                    <section class="result-panel" aria-labelledby="result-heading">
-                        <p class="eyebrow">Your result</p>
-                        <p class="result-score">@result.Percentage%</p>
-                        <h2 id="result-heading" class="result-title">@GetCompatibilityMessage(result.Percentage)</h2>
-                        <p class="supporting-text">
-                            @firstName and @secondName have @result.Percentage% compatibility in this name game.
-                        </p>
-                        <label for="compatibility-progress" class="sr-only">Compatibility score</label>
-                        <progress id="compatibility-progress" class="score-progress" max="100" value="@result.Percentage">
-                            @result.Percentage%
-                        </progress>
-                    </section>
+                    <section class="result-panel" aria-labelledby="result-heading"><p class="result-names">@firstName <span aria-hidden="true">♡</span> @secondName</p><p class="score">@result.Percentage<span>%</span></p><h3 id="result-heading">@GetCompatibilityMessage(result.Percentage)</h3><p class="muted">A playful score from your names. Your real connection is yours to write.</p><label for="compatibility-progress" class="sr-only">Compatibility score</label><progress id="compatibility-progress" class="score-progress" max="100" value="@result.Percentage">@result.Percentage%</progress></section>
+                }
+                else
+                {
+                    <div class="result-placeholder"><span aria-hidden="true">✳</span><p>Your story is more than a number.<br /><span>But a little curiosity never hurt.</span></p></div>
                 }
             </div>
         </section>
-
-        @if (result is { Ok: true } && result.Trace.Count > 0)
-        {
-            <details class="steps-card">
-                <summary>
-                    <span>How the score was calculated</span>
-                    <span class="summary-meta">@result.Trace.Count rounds</span>
-                </summary>
-
-                <div class="steps-content">
-                    <p class="supporting-text">
-                        Each round pairs values from the outside in until two digits remain.
-                    </p>
-
-                    <ol class="trace-list">
+    </section>
+    @if (result is { Ok: true })
+    {
+        <details class="calculation-details"><summary>See how we got @result.Percentage% <span class="summary-meta">@result.Trace.Count rounds</span><span aria-hidden="true">+</span></summary><div class="trace-content"><p>Count the letters, add from the outside in, and repeat until two digits remain.</p>
+            @if (result.Trace.Count == 0) { <p>Only two counts remain after counting the letters, so no reduction rounds are needed.</p> }
+            <ol class="trace-list">
                         @foreach (var step in result.Trace)
                         {
                             <li class="trace-row">
@@ -127,48 +70,25 @@
                             </li>
                         }
                     </ol>
-                </div>
-            </details>
-        }
-
-        <footer class="page-footer">
-            For fun only—not a scientific relationship metric. Powered by .NET 10.
-        </footer>
-    </div>
-</main>
-
+        </div></details>
+    }
+    <section id="how-it-works" class="how-section" aria-labelledby="how-heading"><div class="how-heading"><p class="eyebrow">A name game, not a prediction</p><h2 id="how-heading">A little math.<br />Nothing written in the stars.</h2><p>Same names, same order, same score. Here’s what happens behind the heart.</p></div><ol class="how-steps"><li><span>01</span><div><h3>Keep the letters.</h3><p>Combine both names, lowercase them, and count only A–Z. Spaces and punctuation sit this one out.</p></div></li><li><span>02</span><div><h3>Bring them together.</h3><p>Count each distinct letter in the order it appears. Add the outside counts, moving toward the center.</p></div></li><li><span>03</span><div><h3>Find your number.</h3><p>Split multi-digit sums and repeat until two digits remain. That’s your just-for-fun score.</p></div></li></ol></section>
+</div>
 @code {
     private string firstName = "";
     private string secondName = "";
     private string error = "";
     private CalculationResult? result;
-
+    private void ClearResult() { result = null; error = ""; }
     private void HandleCalculate()
     {
-        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(secondName))
-        {
-            error = "Enter both names to calculate compatibility.";
-            result = null;
-            return;
-        }
-
-        error = "";
         result = CalcService.CalculateCompatibility(firstName, secondName);
-
-        if (!result.Ok)
-        {
-            error = result.Error;
-            result = null;
-        }
+        error = result.Ok ? "" : result.Error;
+        if (!result.Ok) result = null;
     }
-
-    private static string GetCompatibilityMessage(int percentage)
+    private static string GetCompatibilityMessage(int percentage) => percentage switch
     {
-        if (percentage >= 90) return "S-tier match";
-        if (percentage >= 80) return "High-voltage chemistry";
-        if (percentage >= 70) return "Strong alignment";
-        if (percentage >= 60) return "Solid connection";
-        if (percentage >= 50) return "Balanced potential";
-        return "Low resonance";
-    }
+        >= 90 => "S-tier match", >= 80 => "High-voltage chemistry", >= 70 => "Strong alignment",
+        >= 60 => "Solid connection", >= 50 => "Balanced potential", _ => "Low resonance"
+    };
 }

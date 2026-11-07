@@ -1,54 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="love-icon.svg" />
-    <title>Love Calculator | Premium Red Edition</title>
+    <meta name="description" content="A playful name game. Enter two names, see your score, and explore the calculation. Built for fun by Burma Project Ideas." />
+    <meta name="theme-color" content="#fcf9f6" />
+    <link rel="icon" type="image/svg+xml" href="/brand/love-mark.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/icon-16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Burma Love Calculator" />
+    <meta property="og:description" content="Two names. One little what if. A playful name game from Burma Project Ideas." />
+    <meta property="og:url" content="https://blazor-burma-love-calculator.vercel.app/" />
+    <meta property="og:image" content="https://blazor-burma-love-calculator.vercel.app/brand/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A rose heart with a diamond cutout beside the Burma Love Calculator name." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Burma Love Calculator" />
+    <meta name="twitter:description" content="Two names. One little what if. A playful name game from Burma Project Ideas." />
+    <meta name="twitter:image" content="https://blazor-burma-love-calculator.vercel.app/brand/social-card.png" />
+    <meta name="twitter:image:alt" content="Burma Love Calculator rose heart logo and name." />
+    <title>Burma Love Calculator · A little name game</title>
     <base href="/" />
     <link rel="stylesheet" href="css/site.css" />
-    <link href="blazor-burma-love-calculator.styles.css" rel="stylesheet" />
     <script type="importmap"></script>
-    <style>
-        .loader-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #fff5f5;
-            gap: 1rem;
-            z-index: 9999;
-        }
-        .loader-mark { width: 48px; height: 48px; }
-        .loader-text {
-            margin: 0;
-            color: #991b1b;
-            font-family: system-ui, -apple-system, sans-serif;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-        }
-    </style>
+    <script src="js/theme.js"></script>
+    <script>window.themeManager.initTheme();</script>
 </head>
-
 <body>
-    <div id="app">
-        <div class="loader-container" role="status" aria-live="polite">
-            <img src="love-icon.svg" alt="" class="loader-mark" />
-            <p class="loader-text">Loading Love Calculator...</p>
-        </div>
-    </div>
-
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="." class="reload">Reload</a>
-        <span class="dismiss" aria-hidden="true">×</span>
-    </div>
+    <div id="app"><div style="min-height:100dvh;display:grid;place-content:center;gap:18px;text-align:center" role="status" aria-live="polite"><img src="brand/love-mark.svg" width="44" height="44" alt="" style="margin:auto" /><p>Loading Love Calculator…</p></div></div>
+    <div id="blazor-error-ui" role="alert">Something went wrong. <a href="." class="reload">Reload the app</a></div>
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 </body>
-
 </html>

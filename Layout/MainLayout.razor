@@ -1,3 +1,20 @@
-﻿@inherits LayoutComponentBase
-
-@Body
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+<a href="/#main-content" class="skip-link">Skip to content</a>
+<div class="app-shell">
+    <header class="site-header page-width">
+        <a href="/" class="brand"><img src="brand/love-mark.svg" width="30" height="30" alt="" /><span>burma love<span class="brand-dot">.</span></span></a>
+        @* NavbarPill surface adapted from Prestige UI (MIT). *@
+        <nav class="prestige-nav" aria-label="Main navigation"><a href="/#calculator" class="calculator-link">Calculator</a><a href="/#how-it-works" class="method-link">How it works</a></nav>
+        <button type="button" class="theme-toggle" @onclick="ToggleTheme" aria-label="Toggle light or dark theme"><span aria-hidden="true">◐</span></button>
+    </header>
+    <main id="main-content" tabindex="-1">@Body</main>
+    <footer class="site-footer page-width"><div><a href="https://github.com/burma-project-ideas">Burma Project Ideas</a><p>A small project. A little fun.</p></div><div><span>Made by <a href="https://github.com/sannlynnhtun-coding">Sann Lynn Htun</a></span><span>UI adapted from <a href="https://prestigeui.com/">Prestige UI</a> · <a href="https://github.com/burma-project-ideas/burma-love-calculator">View source ↗</a></span></div></footer>
+</div>
+@code {
+    private async Task ToggleTheme()
+    {
+        var current = await JS.InvokeAsync<string>("themeManager.getTheme");
+        await JS.InvokeVoidAsync("themeManager.setTheme", current == "dark" ? "light" : "dark");
+    }
+}
