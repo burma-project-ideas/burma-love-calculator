@@ -36,9 +36,12 @@ jobs:
       # 3. Handle Dependencies and Build
       - name: Restore & Build
         run: |
-          npm install
+          npm ci
           dotnet restore
           dotnet build --configuration Release --no-restore
+
+      - name: Check calculator rules
+        run: dotnet run --project tests/CalculatorChecks.csproj
 
       # 4. Compile the Wasm Project for Production
       - name: Publish WasmApp
@@ -87,6 +90,6 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-version: latest
+          vercel-version: '65.12.1'
           vercel-args: '--prod'
           working-directory: ./publish_output/wwwroot # Vercel needs the static assets folder
