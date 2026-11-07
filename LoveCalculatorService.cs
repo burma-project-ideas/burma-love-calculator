@@ -16,6 +16,13 @@ public class LoveCalculatorService
 {
     public CalculationResult CalculateCompatibility(string name1, string name2)
     {
+        if (string.IsNullOrWhiteSpace(name1) || string.IsNullOrWhiteSpace(name2)
+            || name1.Length > 80 || name2.Length > 80
+            || !Regex.IsMatch(name1, "[a-zA-Z]") || !Regex.IsMatch(name2, "[a-zA-Z]"))
+        {
+            return new CalculationResult { Ok = false, Error = "Enter two names, each containing English letters and no more than 80 characters." };
+        }
+
         string combined = SanitizeCombinedNames(name1, name2);
 
         if (string.IsNullOrEmpty(combined))
@@ -49,7 +56,7 @@ public class LoveCalculatorService
             };
         }
 
-        var currentCounts = seenChars.Select(c => charCounts[c]).ToList();
+        var currentCounts = seenChars.SelectMany(c => charCounts[c].ToString().Select(digit => digit - '0')).ToList();
         var trace = new List<TraceStep>();
 
         while (currentCounts.Count > 2)
@@ -107,6 +114,6 @@ public class LoveCalculatorService
 
     private string SanitizeCombinedNames(string name1, string name2)
     {
-        return Regex.Replace((name1 + name2).ToLower(), "[^a-z]", "");
+        return Regex.Replace((name1 + name2).ToLowerInvariant(), "[^a-z]", "");
     }
 }
