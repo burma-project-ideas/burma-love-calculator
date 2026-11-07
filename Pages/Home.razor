@@ -1,251 +1,67 @@
 @page "/"
 @inject LoveCalculatorService CalcService
-@using System.Timers
-
-<PageTitle>Love Calculator | Premium Red Edition</PageTitle>
-
-<div class="app-shell min-h-screen px-4 py-6 md:px-8 md:py-10">
-    <div class="mx-auto max-w-5xl">
-        <header class="mb-8 text-center md:mb-10">
-            <p class="kicker mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs tracking-[0.2em]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                BLAZOR UI PRO MAX RED EDITION
-            </p>
-            <div class="flex items-center justify-center gap-3">
-                <img src="love-icon.svg" alt="Love icon" class="brand-icon h-10 w-10 md:h-12 md:w-12" />
-                <h1 class="title-gradient text-5xl font-bold leading-tight md:text-7xl">Love Calculator</h1>
-                <img src="love-icon.svg" alt="Love icon" class="brand-icon h-10 w-10 md:h-12 md:w-12" />
+<PageTitle>Burma Love Calculator · A little name game</PageTitle>
+<div class="page-width">
+    <section class="calculator-layout" id="calculator" aria-labelledby="page-heading">
+        <div class="intro">
+            <p class="eyebrow"><span class="tiny-heart" aria-hidden="true">♡</span> A little curiosity, a little chemistry</p>
+            <h1 id="page-heading" class="text-reveal">Two names.<br />One little <em>what if.</em></h1>
+            <p class="intro-copy">A name, a crush, a moment of curiosity.<br />Put your names together and see what the numbers say.</p>
+            <p class="myanmar intro-burmese" lang="my">နာမည်နှစ်ခုနဲ့ အပျော်တမ်း တွက်ကြည့်ရအောင်။</p>
+            <div class="love-illustration" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="illustration-heart">♡</span><span class="letter-tag tag-one">you</span><span class="letter-tag tag-two">&amp; them</span></div>
+            <p class="privacy-note">Your names stay in your browser.</p>
+        </div>
+        <section class="calculator-card" aria-labelledby="calculator-heading">
+            <div class="card-heading"><span class="card-kicker">THE NAME GAME</span><span aria-hidden="true">♡</span></div>
+            <h2 id="calculator-heading">Let’s put two names together.</h2>
+            <p id="names-help" class="muted">Use English letters, including romanized Myanmar names. Up to 80 characters each.</p>
+            <form @onsubmit="HandleCalculate" @onsubmit:preventDefault novalidate>
+                <div class="field"><label for="first-name">Your name</label><input id="first-name" name="first-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Alice" @bind="firstName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
+                <div class="between-fields" aria-hidden="true"><span></span><b>&amp;</b><span></span></div>
+                <div class="field"><label for="second-name">Their name</label><input id="second-name" name="second-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Bob" @bind="secondName" @bind:event="oninput" @bind:after="ClearResult" aria-describedby="names-help name-error" aria-invalid="@(!string.IsNullOrEmpty(error) ? "true" : "false")" /></div>
+                @if (!string.IsNullOrEmpty(error)) { <p id="name-error" class="form-error" role="alert">@error</p> }
+                <PrestigeShineButton Type="submit" Class="calculate-button">Calculate our match <span aria-hidden="true">↗</span></PrestigeShineButton>
+                <p class="fun-note">For smiles, not relationship advice.</p>
+            </form>
+            <div class="result-region" aria-live="polite" aria-atomic="true">
+                @if (result is { Ok: true })
+                {
+                    <section class="result-panel" aria-labelledby="result-heading"><p class="result-names">@firstName <span aria-hidden="true">♡</span> @secondName</p><p class="score">@result.Percentage<span>%</span></p><h3 id="result-heading">@GetCompatibilityMessage(result.Percentage)</h3><p class="muted">A playful score from your names. Your real connection is yours to write.</p></section>
+                }
+                else
+                {
+                    <div class="result-placeholder"><span aria-hidden="true">✳</span><p>Your story is more than a number.<br /><span>But a little curiosity never hurt.</span></p></div>
+                }
             </div>
-            <p class="header-subtitle mt-4 text-base md:text-lg">
-                dotnet 10 powered premium love resonance engine.
-            </p>
-        </header>
-
-        <section class="palette-rack mb-8 flex flex-wrap justify-center gap-2.5 rounded-2xl p-3.5">
-            <div class="palette-chip"><span class="palette-dot bg-primary"></span><span>Primary</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-secondary"></span><span>Secondary</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-accent"></span><span>Accent</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-destructive"></span><span>Destructive</span></div>
-            <div class="palette-chip"><span class="palette-dot bg-muted"></span><span>Muted</span></div>
         </section>
-
-        <section class="luxe-card mb-8 rounded-[2rem] p-5 shadow-2xl md:p-10">
-            <div class="mb-8 grid gap-5 md:grid-cols-2">
-                <div class="space-y-2">
-                    <label class="field-label text-muted-foreground font-bold flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        First Person
-                    </label>
-                    <input type="text" @bind="firstName" @bind:event="oninput" placeholder="Enter first name" class="input-luxe" />
-                </div>
-
-                <div class="space-y-2">
-                    <label class="field-label text-muted-foreground font-bold flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                        Second Person
-                    </label>
-                    <input type="text" @bind="secondName" @bind:event="oninput" placeholder="Enter second name" class="input-luxe" />
-                </div>
-            </div>
-
-            @if (!string.IsNullOrEmpty(error))
+    </section>
+    @if (result is { Ok: true })
+    {
+        <details class="calculation-details"><summary>See how we got @result.Percentage% <span aria-hidden="true">+</span></summary><div class="trace-content"><p>Count the letters, add from the outside in, and repeat until two digits remain.</p>
+            @if (result.Trace.Count == 0) { <p>Only two counts remain after counting the letters, so no reduction rounds are needed.</p> }
+            @foreach (var step in result.Trace)
             {
-                <div class="error-bar mb-6 flex items-start gap-3 rounded-2xl p-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                    <p class="text-sm font-semibold">@error</p>
-                </div>
+                <div class="trace-round"><span>Round @step.Round</span><div class="digit-row" aria-label="Round input">@foreach (var digit in step.Input) { <span>@digit</span> }</div><span aria-hidden="true">→</span><div class="digit-row output" aria-label="Round output">@foreach (var digit in step.Output) { <span>@digit</span> }</div></div>
             }
-
-            <div class="mb-8 text-center">
-                <button @onclick="HandleCalculate" disabled="@isCalculating" class="button-luxe">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-                    @(isCalculating ? "Calculating..." : "Calculate Love")
-                </button>
-            </div>
-
-            @if (result != null || isCalculating)
-            {
-                <div class="space-y-6 text-center">
-                    @if (isCalculating)
-                    {
-                        <div class="flex flex-col items-center gap-4">
-                            <div class="spinner-ring h-16 w-16 animate-spin rounded-full border-4"></div>
-                            <p class="header-subtitle text-lg font-medium">Analyzing compatibility...</p>
-                        </div>
-                    }
-                    else if (result != null && result.Ok)
-                    {
-                        <div class="relative">
-                            <div class="glow-premium inline-block bg-gradient-to-r @GetResultToneClass(result.Percentage) bg-clip-text text-7xl font-extrabold text-transparent md:text-9xl">
-                                @result.Percentage%
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkle-hero absolute -right-6 -top-4 h-8 w-8"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                        </div>
-
-                        <div class="space-y-2">
-                            <h2 class="text-4xl font-semibold">@GetCompatibilityMessage(result.Percentage)</h2>
-                            <p class="header-subtitle text-lg">
-                                @firstName + @secondName = @result.Percentage% compatibility
-                            </p>
-                        </div>
-
-                        <div class="progress-wrap">
-                            <div class="h-full rounded-full bg-gradient-to-r @GetResultToneClass(result.Percentage) transition-all duration-1000 ease-out"
-                                 style="width: @(result.Percentage)%">
-                            </div>
-                        </div>
-                    }
-                </div>
-            }
-        </section>
-
-        @if (result != null && result.Ok && result.Trace.Count > 0)
-        {
-            <section class="luxe-card rounded-[1.7rem] p-5 md:p-8">
-                <div class="mb-4 flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkle-hero h-5 w-5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                    <h3 class="text-3xl font-semibold">Calculation Steps</h3>
-                </div>
-
-                <p class="header-subtitle mb-5 text-sm leading-relaxed">
-                    Round trace for @firstName + @secondName showing how the final result is derived.
-                </p>
-
-                <div class="trace-list max-h-[444px] overflow-y-auto space-y-4 p-4">
-                    @foreach (var step in result.Trace)
-                    {
-                        <article class="trace-card">
-                            <div class="trace-heading flex items-center gap-2">
-                                <span class="step-pill">@step.Round</span>
-                                <p class="trace-round-title text-sm font-bold">Round @step.Round</p>
-                            </div>
-
-                            <div class="trace-line grid grid-cols-[3.8rem_1fr] gap-2 items-center">
-                                <span class="trace-label text-[10px] uppercase tracking-widest font-extrabold text-muted-foreground">Input</span>
-                                <div class="flex gap-1.5 flex-wrap">
-                                    @foreach (var val in step.Input)
-                                    {
-                                        <span class="number-chip">@val</span>
-                                    }
-                                </div>
-                            </div>
-
-                            <div class="trace-line grid grid-cols-[3.8rem_1fr] gap-2 items-center">
-                                <span class="trace-label text-[10px] uppercase tracking-widest font-extrabold text-muted-foreground">Output</span>
-                                <div class="flex gap-1.5 flex-wrap">
-                                    @foreach (var val in step.Output)
-                                    {
-                                        <span class="number-chip">@val</span>
-                                    }
-                                </div>
-                            </div>
-                        </article>
-                    }
-                </div>
-            </section>
-        }
-
-        <footer class="pb-5 pt-10 text-center">
-            <p class="footer-note text-sm font-medium tracking-wide opacity-60">
-                For fun only. Not a scientific relationship metric. Powered by .NET 10.
-            </p>
-        </footer>
-    </div>
+        </div></details>
+    }
+    <section id="how-it-works" class="how-section" aria-labelledby="how-heading"><div class="how-heading"><p class="eyebrow">A name game, not a prediction</p><h2 id="how-heading">A little math.<br />Nothing written in the stars.</h2><p>Same names, same order, same score. Here’s what happens behind the heart.</p></div><ol class="how-steps"><li><span>01</span><div><h3>Keep the letters.</h3><p>Combine both names, lowercase them, and count only A–Z. Spaces and punctuation sit this one out.</p></div></li><li><span>02</span><div><h3>Bring them together.</h3><p>Count each distinct letter in the order it appears. Add the outside counts, moving toward the center.</p></div></li><li><span>03</span><div><h3>Find your number.</h3><p>Split multi-digit sums and repeat until two digits remain. That’s your just-for-fun score.</p></div></li></ol></section>
 </div>
-
 @code {
     private string firstName = "";
     private string secondName = "";
     private string error = "";
-    private bool isCalculating = false;
     private CalculationResult? result;
-    private List<HeartParticle> particles = new();
-    private Random random = new();
-
-    private class HeartParticle
+    private void ClearResult() { result = null; error = ""; }
+    private void HandleCalculate()
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public double X { get; set; }
-        public double Y { get; set; }
-        public int TX { get; set; }
-        public int TY { get; set; }
-    }
-
-    private async Task HandleCalculate(MouseEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(secondName))
-        {
-            error = "Please enter both names to calculate.";
-            result = null;
-            return;
-        }
-
-        TriggerBurst(e.ClientX, e.ClientY);
-
-        error = "";
-        result = null;
-        isCalculating = true;
-
-        // Simulate calculation delay for premium feel
-        await Task.Delay(820);
-
         result = CalcService.CalculateCompatibility(firstName, secondName);
-
-        if (!result.Ok)
-        {
-            error = result.Error;
-            result = null;
-        }
-
-        isCalculating = false;
+        error = result.Ok ? "" : result.Error;
+        if (!result.Ok) result = null;
     }
-
-    private void TriggerBurst(double x, double y)
+    private static string GetCompatibilityMessage(int percentage) => percentage switch
     {
-        for (int i = 0; i < 12; i++)
-        {
-            particles.Add(new HeartParticle
-            {
-                X = x,
-                Y = y,
-                TX = random.Next(-150, 150),
-                TY = random.Next(-200, -50)
-            });
-        }
-
-        StateHasChanged();
-
-        // Cleanup particles after animation
-        _ = Task.Delay(1200).ContinueWith(_ => {
-            particles.Clear();
-            InvokeAsync(StateHasChanged);
-        });
-    }
-
-    private string GetCompatibilityMessage(int percentage)
-    {
-        if (percentage >= 90) return "S-tier Match";
-        if (percentage >= 80) return "High Voltage Chemistry";
-        if (percentage >= 70) return "Strong Alignment";
-        if (percentage >= 60) return "Solid Connection";
-        if (percentage >= 50) return "Balanced Potential";
-        return "Low Resonance";
-    }
-
-    private string GetResultToneClass(int percentage)
-    {
-        if (percentage >= 80) return "from-red-700 via-red-500 to-amber-300";
-        if (percentage >= 60) return "from-red-700 via-red-500 to-red-200";
-        if (percentage >= 40) return "from-red-600 via-red-400 to-orange-200";
-        return "from-red-500 via-rose-400 to-zinc-200";
-    }
-}
-
-@foreach (var p in particles)
-{
-    <div class="heart-spark" style="left: @(p.X)px; top: @(p.Y)px; --tx: @(p.TX)px; --ty: @(p.TY)px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-6 h-6">
-            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-        </svg>
-    </div>
+        >= 90 => "S-tier Match", >= 80 => "High Voltage Chemistry", >= 70 => "Strong Alignment",
+        >= 60 => "Solid Connection", >= 50 => "Balanced Potential", _ => "Low Resonance"
+    };
 }

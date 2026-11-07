@@ -1,81 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A playful name game. Enter two names, see your score, and explore the calculation. Built for fun by Burma Project Ideas." />
+    <meta name="theme-color" content="#fcf9f6" />
     <link rel="icon" type="image/svg+xml" href="love-icon.svg" />
-    <title>Love Calculator | Premium Red Edition</title>
+    <title>Burma Love Calculator · A little name game</title>
     <base href="/" />
     <link rel="stylesheet" href="css/site.css" />
-    <link href="blazor-burma-love-calculator.styles.css" rel="stylesheet" />
     <script type="importmap"></script>
-    <style>
-        .loader-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle at center, #fff 0%, #fff5f5 100%);
-            gap: 2rem;
-            z-index: 9999;
-        }
-        .heart-spinner {
-            width: 80px;
-            height: 80px;
-            position: relative;
-            animation: heart-beat 1s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-        }
-        .heart-spinner::before, .heart-spinner::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 52px;
-            height: 80px;
-            border-radius: 50px 50px 0 0;
-            background: linear-gradient(135deg, #991b1b, #ef4444);
-            box-shadow: 0 10px 20px rgba(153, 27, 27, 0.3);
-        }
-        .heart-spinner::before { left: 40px; transform: rotate(-45deg); transform-origin: 0 100%; }
-        .heart-spinner::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
-        
-        @keyframes heart-beat {
-            0% { transform: scale(0.95); }
-            5% { transform: scale(1.1); }
-            39% { transform: scale(0.85); }
-            45% { transform: scale(1); }
-            60% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-        .loader-text {
-            color: #991b1b;
-            font-family: system-ui, -apple-system, sans-serif;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            animation: opacity-fade 2s infinite;
-        }
-        @keyframes opacity-fade { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-    </style>
+    <script src="js/theme.js"></script>
+    <script>window.themeManager.initTheme();</script>
 </head>
-
 <body>
-    <div id="app">
-        <div class="loader-container">
-            <div class="heart-spinner"></div>
-            <div class="loader-text">Loading Resonance Engine...</div>
-        </div>
-    </div>
-
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="." class="reload">Reload</a>
-        <span class="dismiss">🗙</span>
-    </div>
+    <div id="app"><div style="min-height:100dvh;display:grid;place-content:center;gap:18px;text-align:center" role="status"><img src="love-icon.svg" width="44" height="44" alt="" style="margin:auto" /><p>Getting a little love ready…</p></div></div>
+    <div id="blazor-error-ui" role="alert">Something went wrong. <a href="." class="reload">Reload the app</a></div>
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 </body>
-
 </html>
